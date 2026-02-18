@@ -10,6 +10,3 @@
 build/
 .flutter-plugins
 .flutter-plugins-dependencies
-
-# Tutorial-specific: keep generated entrypoint scripts local
-cli/bin/
