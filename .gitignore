@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+
+# IDE/editor
+.idea/
+.vscode/
+*.iml
+
+# Dart/Flutter generated files across nested projects
+**/.dart_tool/
+**/.packages
+**/.pub/
+**/build/
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
