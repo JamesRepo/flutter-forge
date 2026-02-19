@@ -6,7 +6,16 @@ import 'package:command_runner/command_runner.dart';
 const version = '0.0.5';
 
 void main(List<String> arguments) async { // main is now async and awaits the runner
-  var commandRunner = CommandRunner()..addCommand(HelpCommand());
+  var commandRunner = CommandRunner(
+    onError: (Object error) {
+      if (error is Error) {
+        throw error;
+      }
+      if (error is Exception) {
+        print(error);
+      }
+    },
+  )..addCommand(HelpCommand());
   commandRunner.run(arguments);
 }
 
