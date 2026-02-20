@@ -7,6 +7,9 @@ const version = '0.0.5';
 
 void main(List<String> arguments) async { // main is now async and awaits the runner
   var commandRunner = CommandRunner(
+    onOutput: (String output) async {
+      await write(output);
+    },
     onError: (Object error) {
       if (error is Error) {
         throw error;
