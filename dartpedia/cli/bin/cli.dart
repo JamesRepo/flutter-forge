@@ -1,25 +1,36 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:cli/cli.dart';
 import 'package:command_runner/command_runner.dart';
 
 
 const version = '0.0.5';
 
-void main(List<String> arguments) async { // main is now async and awaits the runner
-  var commandRunner = CommandRunner(
+void main(List<String> arguments) async {
+  final errorLogger = initFileLogger('errors');
+
+  final app =
+  CommandRunner(
     onOutput: (String output) async {
       await write(output);
     },
     onError: (Object error) {
       if (error is Error) {
+        errorLogger.severe(
+          '[Error] ${error.toString()}\n${error.stackTrace}',
+        );
         throw error;
       }
       if (error is Exception) {
-        print(error);
+        errorLogger.warning(error);
       }
     },
-  )..addCommand(HelpCommand());
-  commandRunner.run(arguments);
+  )
+    ..addCommand(HelpCommand())
+    ..addCommand(SearchCommand(logger: errorLogger))
+    ..addCommand(GetArticleCommand(logger: errorLogger));
+
+  app.run(arguments);
 }
 
 void searchWikipedia(List<String>? arguments) async {
